@@ -234,9 +234,17 @@ void handle_ble_event(sl_bt_msg_t *evt){
 
     case sl_bt_evt_system_external_signal_id:
       switch(evt->data.evt_system_external_signal.extsignals){
-        case pb0_pressed:
+        case bt_ext_sig_pb0_pressed: {
           pushbutton0_response();
           break;
+        }
+        case bt_ext_sig_ridar_result_ready: {
+          // disable ridar state machine, wait for next result
+          vl_set_flag_enable(false);
+          vl_set_flag_data_ready(false);
+          LOG_INFO("distance = %d mm", vl_get_result());
+          break;
+        }
         default:
           break;
       }
@@ -251,6 +259,13 @@ void handle_ble_event(sl_bt_msg_t *evt){
     case sl_bt_evt_system_soft_timer_id:
         displayUpdate();
         soft_timer_deq_indication();
+
+        if (evt->data.evt_system_soft_timer.handle == 2) {
+            if (!vl_get_flag_enable()) {
+                vl_set_flag_enable(true);
+            }
+        }
+
         break;
 
       /**Should never reach here**/

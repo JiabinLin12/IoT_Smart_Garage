@@ -94,6 +94,14 @@ SL_WEAK void app_init(void)
   PbCirQ_init();
   initADC ();
 
+  // Initialize sensors
+  if (vl53l0x_init()) {
+      LOG_ERROR("vl53l0x init success");
+  }
+  else {
+      LOG_ERROR("Error: vl53l0x init");
+  }
+
 #if((LOWEST_ENERGY_MODE==EM1) || (LOWEST_ENERGY_MODE==EM2))
       sl_power_manager_add_em_requirement(LOWEST_ENERGY_MODE);
 #endif
@@ -122,8 +130,8 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
 {
    handle_ble_event(evt);
 
-  
    smart_light_state_machine(evt);
-   
+
+   ridar_fsm(evt);
 } // sl_bt_on_event()
 

@@ -53,6 +53,9 @@
 #include "src/scheduler.h"
 #include "src/timers.h"
 
+#include "ridar_test.h"
+#include "vl53_state_machine.h"
+
 // DOS: define this to print diagnostics
 #define DEBUG 0
 

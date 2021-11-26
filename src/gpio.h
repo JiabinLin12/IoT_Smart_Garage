@@ -11,6 +11,7 @@
 
 #ifndef SRC_GPIO_H_
 #define SRC_GPIO_H_
+
 #include <stdbool.h>
 #include "em_gpio.h"
 #include <string.h>
@@ -21,33 +22,41 @@
 // and GPIO documentation at https://siliconlabs.github.io/Gecko_SDK_Doc/efm32g/html/group__GPIO.html
 // to determine the correct values for these.
 
-#define	LED0_port  gpioPortF
-#define LED0_pin   4
-#define LED1_port  gpioPortF
-#define LED1_pin   5
-#define PB0_PORT   gpioPortF
-#define PB0_PIN    6
-#define PB1_PORT   gpioPortF
-#define PB1_PIN    7
+// Distance Sensor VL53L0X
+#define VL53L0X_GPIO_PORT           gpioPortA
+#define VL53L0X_XSHUT_PIN           2           // Power control, EXP3
+#define VL53L0X_GPIO1_PIN           3           // Interrupt, EXP5
 
-#define SI7021_PORT         gpioPortD
-#define SI7021_PIN          15
-#define DISP_PORT           gpioPortD
-#define DISP_PIN            13
+// I2C0 Peripheral
+#define I2C0_PORT                   gpioPortC
+#define I2C0_SCL_PIN                10
+#define I2C0_SDA_PIN                11
 
+// Smart Light Macro Define
+#define BREAK_BEAM_PORT             gpioPortD   //EXP_HEADER7
+#define BREAK_BEAM_PIN              10
+#define LIGHT_SENSOR_POWER_PORT     gpioPortD   //External Pin 11
+#define LIGHT_SENSOR_POWER_PIN      12
 
-//Smart Light Macro Define
-#define BREAK_BEAM_PORT     gpioPortD   //EXP_HEADER7
-#define BREAK_BEAM_PIN      10
-#define LIGHT_SENSOR_POWER_PORT   gpioPortD   //External Pin 11
-#define LIGHT_SENSOR_POWER_PIN    12
+// LCD display
+#define DISP_PORT                   gpioPortD
+#define DISP_PIN                    13
 
+// Thermal
+#define SI7021_PORT                 gpioPortD
+#define SI7021_PIN                  15
 
+// LEDs
+#define	LED0_port                   gpioPortF
+#define LED0_pin                    4
+#define LED1_port                   gpioPortF
+#define LED1_pin                    5
 
-
-
-
-
+// Buttons
+#define PB0_PORT                    gpioPortF
+#define PB0_PIN                     6
+#define PB1_PORT                    gpioPortF
+#define PB1_PIN                     7
 
 
 // Function prototypes
@@ -62,6 +71,9 @@ void gpioSensorEnSetOn();
 void gpioSetDisplayExtcomin(bool status);
 void light_sensor_enable();
 void light_sensor_disable();
+void gpioVL53SetOn();
+void gpioVL53SetOff();
+
 //DOS
 void ToggleLED0 (void);
 

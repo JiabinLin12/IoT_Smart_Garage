@@ -41,7 +41,8 @@ enum {
   no_event                  = 0,
   letimer_comp1_expired     = 1,
 
-  pb0_pressed = 2
+  bt_ext_sig_pb0_pressed,
+  bt_ext_sig_ridar_result_ready,
 };
 
 
