@@ -36,8 +36,7 @@
 
 #include <src/sml_state_machine.h>
 #include <src/sml_adc.h>
-
-
+#include <src/vl53_state_machine.h>
 
 /***
  * Handle LETIMER0 interrupt
@@ -57,7 +56,7 @@ void LETIMER0_IRQHandler(void){
 
 
 void GPIO_EVEN_IRQHandler(void){
-  int gpio_flag = GPIO_IntGetEnabled();
+  uint32_t gpio_flag = GPIO_IntGetEnabled();
   GPIO_IntClear(gpio_flag);
   //Either PB0 or bream beam
   if (!GPIO_PinInGet(PB0_PORT,PB0_PIN)
@@ -67,6 +66,18 @@ void GPIO_EVEN_IRQHandler(void){
       schedulerSetEventBreakBeam();
   }
 
+}
+
+void GPIO_ODD_IRQHandler(void)
+{
+  uint32_t gpio_flag = GPIO_IntGetEnabled();
+
+  // Clear all odd pin interrupt flags
+  GPIO_IntClear(0xAAAA);
+
+  if (gpio_flag & (1U<<VL53L0X_GPIO1_PIN)) {
+      vl_set_flag_measure_ready(true);
+  }
 }
 
 

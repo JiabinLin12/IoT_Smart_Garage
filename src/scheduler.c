@@ -131,7 +131,7 @@ static QueueElement_t PbCirQ_DeQ(){
 void pb_pressed_external_signal(){
   CORE_DECLARE_IRQ_STATE;
   CORE_ENTER_CRITICAL();                                            //Enter critical section while processing the queue
-  sl_bt_external_signal(pb0_pressed);
+  sl_bt_external_signal(bt_ext_sig_pb0_pressed);
   CORE_EXIT_CRITICAL();
 }
 
