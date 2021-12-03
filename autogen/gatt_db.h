@@ -22,7 +22,9 @@ extern const sli_bt_gattdb_t gattdb;
 #define gattdb_valid_range                    31
 #define gattdb_motion_state                   34
 #define gattdb_light_state                    37
-#define gattdb_ota_control                    41
+#define gattdb_carLotState                    40
+#define gattdb_client_characteristic_configuration_6 42
+#define gattdb_ota_control                    45
 
 
 #endif // __GATT_DB_H

@@ -67,6 +67,7 @@ typedef struct {
   bool htm_indication_enable;
   bool motion_indication_enable;
   bool light_indication_enable;
+  bool car_lot_indication_enable;
 
   bool smart_garage_bonded;
 

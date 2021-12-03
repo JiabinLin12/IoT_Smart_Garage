@@ -295,14 +295,6 @@ uint8_t vl53l0x_init(void)
 
   // VL53L0X_PerformRefCalibration() end
 
-  // start 1 sec period timer
-  sl_status_t timer_response = sl_bt_system_set_soft_timer(32768, 2, false); // Deprecated
-
-  if (timer_response != SL_STATUS_OK)
-  {
-      LOG_ERROR("LEDC - sl_bt_system_set_soft_timer");
-  }
-
   return true;
 }
 

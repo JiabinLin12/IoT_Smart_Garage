@@ -76,6 +76,7 @@ void schedulerSetEventWaitUs();
 //void schedulerSetEventI2Cdone();
 void light_to_client_indication(uint8_t light_state);
 void motion_to_client_indication(uint8_t motion_state);
+void carlot_to_client_indication(uint8_t carlot_state);
 //uint32_t getNextEvent();
 void soft_timer_deq_indication();
 #endif /* SRC_SCHEDULER_H_ */
