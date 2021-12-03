@@ -97,9 +97,12 @@ void timerWaitUs_irq(uint32_t us_wait){
   LETIMER0->IEN |= IF_COMP1;
 }
 
+void delay_ms(uint32_t ms) {
+  // 32khz
+  uint32_t cnt = ms * 32;
 
-
-
-
-
+  while (cnt--) {
+      ;
+  }
+}
 

@@ -96,7 +96,7 @@ SL_WEAK void app_init(void)
 
   // Initialize sensors
   if (vl53l0x_init()) {
-      LOG_ERROR("vl53l0x init success");
+      LOG_INFO("vl53l0x init success");
   }
   else {
       LOG_ERROR("Error: vl53l0x init");

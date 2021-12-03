@@ -1,10 +1,34 @@
+/***********************************************************************
+ *@file        oscillators.c
+ *
+ *@version     0.0.1
+ *
+ *@brief       clock management unit setup function file.
+ *
+ *@author      Fanghao Han, faha9923@Colorado.edu
+ *
+ *@date        Nov 13, 2021
+ *
+ *@institution University of Colorado Boulder (UCB)
+ *
+ *@course      ECEN 5823-001: IoT Embedded Firmware (Fall 2021)
+ *
+ *@instructor  David Sluiter
+ *
+ *@assignment  final-project
+ *
+ *@resources   Utilized Silicon Labs' EMLIB peripheral libraries to
+ *             implement functionality.
+ *
+ *
+ *@copyright   All rights reserved. Distribution allowed only for the
+ *             use of assignment grading. Use of code excerpts allowed at the
+ *             discretion of author. Contact for permission.  */
+
 
 #include "ridar_test.h"
 
 #include "log.h"
-
-extern void timerWaitms(uint32_t);
-#define delay_ms timerWaitms
 
 // Decode VCSEL (vertical cavity surface emitting laser) pulse period in PCLKs
 // from register value
