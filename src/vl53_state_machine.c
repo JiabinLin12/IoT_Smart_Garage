@@ -17,7 +17,10 @@ bool flag_vl_data_ready = false;
 uint16_t vl_result = 0;
 
 void ridar_fsm(sl_bt_msg_t *evt_struct) {
-  uint32_t bt_signal;
+
+  if (evt_struct) {
+      ;
+  }
 
   curr_state = next_state;
 
@@ -33,6 +36,7 @@ void ridar_fsm(sl_bt_msg_t *evt_struct) {
     }
 
     case vlst_MeasureRequest: {
+      vl_set_flag_measure_ready(false);
 
       vl_writeReg(0x80, 0x01);
       vl_writeReg(0xFF, 0x01);
@@ -49,10 +53,11 @@ void ridar_fsm(sl_bt_msg_t *evt_struct) {
 
     case vlst_WaitForStartBit: {
       if ((vl_readReg(SYSRANGE_START) & 0x01) == 0x00) {
-          vl_set_flag_measure_ready(false);
           next_state = vlst_WaitForMeasure;
       }
 //      timerWaitms_polled(5);
+      delay_ms(5);
+
       break;
     }
 
@@ -62,6 +67,7 @@ void ridar_fsm(sl_bt_msg_t *evt_struct) {
           next_state = vlst_MeasureCompleted;
       }
 //      timerWaitms_polled(5);
+      delay_ms(5);
       break;
     }
 

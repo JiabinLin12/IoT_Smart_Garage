@@ -42,4 +42,7 @@
 void letimer_init();
 void timerWaitUs_polled(uint32_t us_wait);
 void timerWaitUs_irq(uint32_t us_wait);
+
+void delay_ms(uint32_t ms);
+
 #endif /* SRC_TIMERS_H_ */

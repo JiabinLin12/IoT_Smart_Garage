@@ -242,7 +242,7 @@ void handle_ble_event(sl_bt_msg_t *evt){
           // disable ridar state machine, wait for next result
           vl_set_flag_enable(false);
           vl_set_flag_data_ready(false);
-          LOG_INFO("distance = %d mm", vl_get_result());
+          LOG_INFO("distance = %d mm \r\n", vl_get_result());
           break;
         }
         default:
