@@ -169,6 +169,16 @@ static inline bool motion_ok_to_indicate(){
           ble_data_loc->smart_garage_bonded);
 }
 
+/**
+ * check if the car lot  gatt is ok to indicate
+ * */
+static inline bool carlot_ok_to_indicate(){
+  ble_data_struct_t *ble_data_loc = get_ble_data();
+  return (ble_data_loc->car_lot_indication_enable &&
+          ble_data_loc->connection_enable &&
+         !ble_data_loc->indication_in_flight &&
+          ble_data_loc->smart_garage_bonded);
+}
 
 /**
  * Update local gatt attribute
@@ -240,6 +250,7 @@ void light_to_client_indication(uint8_t light_state){
       PbCirQ_EnQ(element);
   }
 }
+
 /**
  * motion server to sent indication to client
  * @param: motion state on(0x01) or off(0x00)
@@ -271,6 +282,36 @@ void motion_to_client_indication(uint8_t motion_state){
   }
 }
 
+/**
+ * car lot server to sent indication to client
+ * @param: car lot state on(0x01) or off(0x00)
+ * **/
+void carlot_to_client_indication(uint8_t carlot_state){
+  uint8_t *connection_handle_loc = get_connection_handle();
+  ble_data_struct_t *ble_data_loc = get_ble_data();
+  QueueElement_t element;
+  element.buffer[0] = 0x00;
+  element.buffer[1] = carlot_state;
+  element.bufferLength = 2;
+  element.charHandle=*connection_handle_loc;
+  element.invalid_element = false;
+  element.charactristic = gattdb_carLotState;
+  //update_pb_gatt_db(element);
+  update_gatt_db(element);
+
+  //No connection detected
+  if(!(*ble_data_loc).connection_enable)
+    return;
+
+  //good to send indication
+  if(carlot_ok_to_indicate()){
+      send_indication(element);
+  }
+  //enqueue if it is not ok to send indication
+  else{
+      PbCirQ_EnQ(element);
+  }
+}
 
 /**
  * Push button for bonding confirmation

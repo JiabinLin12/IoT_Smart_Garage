@@ -56,9 +56,12 @@ void ble_data_init(){
   ble_data_struct_t *ble_data_loc = get_ble_data();
   ble_data_loc->htm_indication_enable = false;
   ble_data_loc->connection_enable = false;
+
   ble_data_loc->indication_in_flight = false;
   ble_data_loc->motion_indication_enable = false;
   ble_data_loc->light_indication_enable = false;
+  ble_data_loc->car_lot_indication_enable = false;
+
   ble_data_loc->smart_garage_bonded = false;
   ble_data_loc->smart_garage_confirmation_require = false;
 }
@@ -131,7 +134,7 @@ void handle_ble_event(sl_bt_msg_t *evt){
         }
         displayPrintf(DISPLAY_ROW_NAME, "Server");
         displayPrintf(DISPLAY_ROW_CONNECTION, "Advertising");
-        displayPrintf(DISPLAY_ROW_ASSIGNMENT, "A6");
+        displayPrintf(DISPLAY_ROW_ASSIGNMENT, "Final Project");
         displayPrintf(DISPLAY_ROW_BTADDR, "%02X:%02X:%02X:%02X:%02X:%02X",addr.addr[0],
                       addr.addr[1],addr.addr[2],addr.addr[3],addr.addr[4], addr.addr[5]);
       break;
@@ -181,6 +184,10 @@ void handle_ble_event(sl_bt_msg_t *evt){
       displayPrintf(DISPLAY_ROW_CONNECTION, "Advertising");
       displayPrintf(DISPLAY_ROW_TEMPVALUE, "");
       PbCirQ_init();
+
+      // run vl53l0x extra time
+      sl_bt_system_set_soft_timer(32768, 2, true); // Deprecated
+
       break;
 
 
@@ -224,6 +231,15 @@ void handle_ble_event(sl_bt_msg_t *evt){
           evt->data.evt_sm_confirm_bonding.bonding_handle!=SL_BT_INVALID_BONDING_HANDLE){
          ble_data_loc->smart_garage_bonded  = true;
        }
+
+       // start 1 sec period timer for distence sensor
+       sl_status_t timer_response = sl_bt_system_set_soft_timer(32768, 2, false); // Deprecated
+
+       if (timer_response != SL_STATUS_OK)
+       {
+           LOG_ERROR("LEDC - sl_bt_system_set_soft_timer");
+       }
+
        break;
 
      case  sl_bt_evt_sm_bonding_failed_id:
@@ -239,12 +255,22 @@ void handle_ble_event(sl_bt_msg_t *evt){
           break;
         }
         case bt_ext_sig_ridar_result_ready: {
+          uint16_t dist_mm = vl_get_result();
           // disable ridar state machine, wait for next result
           vl_set_flag_enable(false);
           vl_set_flag_data_ready(false);
-          LOG_INFO("distance = %d mm \r\n", vl_get_result());
+
+          if (dist_mm > 200) {
+              // car is not in the position
+              carlot_to_client_indication(false);
+          }
+          else {
+              carlot_to_client_indication(true);
+          }
+          LOG_INFO("distance = %d mm \r\n", dist_mm);
           break;
         }
+
         default:
           break;
       }
@@ -254,6 +280,7 @@ void handle_ble_event(sl_bt_msg_t *evt){
     case sl_bt_evt_gatt_server_characteristic_status_id:
       server_char_status_flag_set(evt, gattdb_motion_state,&(ble_data_loc->light_indication_enable), &(ble_data_loc->indication_in_flight));
       server_char_status_flag_set(evt, gattdb_light_state, &(ble_data_loc->motion_indication_enable), &(ble_data_loc->indication_in_flight));
+      server_char_status_flag_set(evt, gattdb_carLotState, &(ble_data_loc->car_lot_indication_enable), &(ble_data_loc->indication_in_flight));
       break;
 
     case sl_bt_evt_system_soft_timer_id:
@@ -272,7 +299,5 @@ void handle_ble_event(sl_bt_msg_t *evt){
     case sl_bt_evt_gatt_server_indication_timeout_id:
       LOG_ERROR("Client did not respond");
       break;
-
-
   }
 }

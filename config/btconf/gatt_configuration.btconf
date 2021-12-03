@@ -176,5 +176,25 @@
         <informativeText/>
       </descriptor>
     </characteristic>
+    
+    <!--CarLotState-->
+    <characteristic const="false" id="carLotState" name="CarLotState" sourceId="" uuid="00000006-38c8-433e-87ec-652a2d136289">
+      <informativeText/>
+      <value length="2" type="hex" variable_length="true">00</value>
+      <properties>
+        <read authenticated="false" bonded="true" encrypted="false"/>
+        <indicate authenticated="false" bonded="true" encrypted="false"/>
+      </properties>
+      
+      <!--Custom Descriptor-->
+      <descriptor const="false" discoverable="true" id="client_characteristic_configuration_6" name="Custom Descriptor" sourceId="" uuid="2904">
+        <properties>
+          <read authenticated="false" bonded="false" encrypted="false"/>
+          <write authenticated="false" bonded="false" encrypted="false"/>
+        </properties>
+        <value length="0" type="hex" variable_length="false">00</value>
+        <informativeText/>
+      </descriptor>
+    </characteristic>
   </service>
 </gatt>
