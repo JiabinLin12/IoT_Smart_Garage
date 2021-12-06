@@ -23,9 +23,11 @@
 // to determine the correct values for these.
 
 // Distance Sensor VL53L0X
-#define VL53L0X_GPIO_PORT           gpioPortA
-#define VL53L0X_XSHUT_PIN           2           // Power control, EXP3
-#define VL53L0X_GPIO1_PIN           3           // Interrupt, EXP5
+#define VL53L0X_GPIO1_PORT          gpioPortD
+#define VL53L0X_GPIO1_PIN           11           // Interrupt, EXP9
+
+#define VL53L0X_XSHUT_PORT          gpioPortF
+#define VL53L0X_XSHUT_PIN           3           // Power control, EXP13
 
 // I2C0 Peripheral
 #define I2C0_PORT                   gpioPortC

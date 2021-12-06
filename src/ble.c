@@ -95,6 +95,7 @@ void handle_ble_event(sl_bt_msg_t *evt){
     case sl_bt_evt_system_boot_id:
         ble_data_init();
         displayInit();
+        sl_status_t timer_response = sl_bt_system_set_soft_timer(32768, 2, false); // Deprecated
         sc = sl_bt_advertiser_create_set(&advertising_set_handle);
         if(sc!=SL_STATUS_OK){
           LOG_ERROR("Advertiser handle create failed %d", sc);
@@ -233,7 +234,6 @@ void handle_ble_event(sl_bt_msg_t *evt){
        }
 
        // start 1 sec period timer for distence sensor
-       sl_status_t timer_response = sl_bt_system_set_soft_timer(32768, 2, false); // Deprecated
 
        if (timer_response != SL_STATUS_OK)
        {
@@ -260,7 +260,7 @@ void handle_ble_event(sl_bt_msg_t *evt){
           vl_set_flag_enable(false);
           vl_set_flag_data_ready(false);
 
-          if (dist_mm > 200) {
+          if (dist_mm > 150) {
               // car is not in the position
               carlot_to_client_indication(false);
           }
