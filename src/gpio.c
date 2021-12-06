@@ -39,6 +39,9 @@ void gpioInit()
   GPIO_PinModeSet(BREAK_BEAM_PORT, BREAK_BEAM_PIN, gpioModeInputPullFilter, true);
   GPIO_ExtIntConfig(BREAK_BEAM_PORT,BREAK_BEAM_PIN,BREAK_BEAM_PIN,false,true,true);
 
+  GPIO_DriveStrengthSet(LIGHT_SENSOR_POWER_PORT, gpioDriveStrengthStrongAlternateStrong);
+  GPIO_PinModeSet(LIGHT_SENSOR_POWER_PORT, LIGHT_SENSOR_POWER_PIN, gpioModePushPull, false);
+
   // 3. Distance Sensor VL53L0X
   GPIO_DriveStrengthSet(VL53L0X_XSHUT_PORT, gpioDriveStrengthStrongAlternateStrong);
   GPIO_PinModeSet(VL53L0X_XSHUT_PORT, VL53L0X_XSHUT_PIN, gpioModePushPull, false);

@@ -63,7 +63,8 @@ void smart_light_state_machine(sl_bt_msg_t *evt_struct){
       if(signal == adc_trigger_event){
           adcSample = ADC_DataSingleGet(ADC0);
           light_sensor_disable();
-          if(adcSample > LIGHT_SENSOR_THRESHOLD){
+          LOG_INFO("%d", adcSample);
+           if(adcSample < LIGHT_SENSOR_THRESHOLD){
               gpioLed0SetOn();
               light_to_client_indication(0x1);
               timerWaitUs_irq(LIGHT_MAINTAIN_TIME);
