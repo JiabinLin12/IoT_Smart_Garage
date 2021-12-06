@@ -40,11 +40,11 @@ void gpioInit()
   GPIO_ExtIntConfig(BREAK_BEAM_PORT,BREAK_BEAM_PIN,BREAK_BEAM_PIN,false,true,true);
 
   // 3. Distance Sensor VL53L0X
-  GPIO_DriveStrengthSet(VL53L0X_GPIO_PORT, gpioDriveStrengthStrongAlternateStrong);
-  GPIO_PinModeSet(VL53L0X_GPIO_PORT, VL53L0X_XSHUT_PIN, gpioModePushPull, false);
+  GPIO_DriveStrengthSet(VL53L0X_XSHUT_PORT, gpioDriveStrengthStrongAlternateStrong);
+  GPIO_PinModeSet(VL53L0X_XSHUT_PORT, VL53L0X_XSHUT_PIN, gpioModePushPull, false);
 
-  GPIO_PinModeSet(VL53L0X_GPIO_PORT, VL53L0X_GPIO1_PIN, gpioModeInputPullFilter, 1);
-  GPIO_ExtIntConfig(VL53L0X_GPIO_PORT, VL53L0X_GPIO1_PIN, VL53L0X_GPIO1_PIN, 0, 1, true);
+  GPIO_PinModeSet(VL53L0X_GPIO1_PORT, VL53L0X_GPIO1_PIN, gpioModeInputPullFilter, 1);
+  GPIO_ExtIntConfig(VL53L0X_GPIO1_PORT, VL53L0X_GPIO1_PIN, VL53L0X_GPIO1_PIN, 0, 1, true);
 
   // Enable IRQ for even & odd numbered GPIO pins
   NVIC_EnableIRQ(GPIO_EVEN_IRQn);
@@ -126,11 +126,11 @@ void ToggleLED0 () {
 
 void gpioVL53SetOn()
 {
-  GPIO_PinOutSet(VL53L0X_GPIO_PORT, VL53L0X_XSHUT_PIN);
+  GPIO_PinOutSet(VL53L0X_XSHUT_PORT, VL53L0X_XSHUT_PIN);
 }
 
 void gpioVL53SetOff()
 {
-  GPIO_PinOutClear(VL53L0X_GPIO_PORT, VL53L0X_XSHUT_PIN);
+  GPIO_PinOutClear(VL53L0X_XSHUT_PORT, VL53L0X_XSHUT_PIN);
 }
 

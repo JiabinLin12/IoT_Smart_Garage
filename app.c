@@ -93,7 +93,7 @@ SL_WEAK void app_init(void)
   si7021_enable();
   PbCirQ_init();
   initADC ();
-
+  gpioVL53SetOn();
   // Initialize sensors
   if (vl53l0x_init()) {
       LOG_INFO("vl53l0x init success");
